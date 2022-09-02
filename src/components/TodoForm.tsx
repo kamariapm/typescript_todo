@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 
 interface TodoFormProps {
   addTodo: AddTodo;
 }
 
 export const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
-  const [newTodo, setTodo] = useState<string>("");
+  const [newTodo, setNewTodo] = useState<string>("");
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewTodo(e.target.value);
+  };
 
+  const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    addTodo(newTodo);
+    setNewTodo("");
+  };
   return (
     <form className="todo-form">
       <input
@@ -14,7 +22,11 @@ export const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
         value={newTodo}
         className="todo-input"
         placeholder="Add a task"
+        onChange={handleChange}
       />
+      <button type="submit" className="submit-button">
+        Add a task
+      </button>
     </form>
   );
 };
